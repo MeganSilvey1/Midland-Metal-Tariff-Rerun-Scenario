@@ -4,7 +4,7 @@ import pandas as pd
 df = pd.read_csv("part_level_tariff.csv")
 
 id_vars = [
-    'ROW ID #', 'Division', 'Part #', 'Item Description', 'Material',
+    'ROW ID #', 'Division', 'Part #', 'Item Description', 'Metal Type',
     'Manufacturing class id', 'Average copper content (%)',
     'Base copper tariff \n(applicable to brass, copper and bronze dependent on average copper content %)',
     'Brass, copper, bronze tariff', 'Steel and iron tariff',
@@ -36,7 +36,7 @@ def safe_numeric(val):
         return 0
 
 def get_tariff(row):
-    mat = row["Material"].strip() if isinstance(row["Material"], str) else row["Material"]
+    mat = row["Metal Type"].strip() if isinstance(row["Metal Type"], str) else row["Metal Type"]
 
     if mat in brass_group:
         return safe_numeric(row["Brass, copper, bronze tariff"])
@@ -53,8 +53,8 @@ def get_tariff(row):
 df_long["Metal Tariff"] = df_long.apply(get_tariff, axis=1)
 
 # Final sub dataframe
-sub_df = df_long[["ROW ID #", "Material", "Country", "tariff_value", "Metal Tariff"]]
-sub_df["Material"] = sub_df["Material"].astype(str).str.strip()
+sub_df = df_long[["ROW ID #", "Metal Type", "Country", "tariff_value", "Metal Tariff"]]
+sub_df["Metal Type"] = sub_df["Metal Type"].astype(str).str.strip()
 
 print(sub_df.head(20))
 
