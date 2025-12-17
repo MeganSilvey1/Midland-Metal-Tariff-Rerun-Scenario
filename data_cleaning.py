@@ -14,7 +14,7 @@ id_vars = [
 # Melt the dataframe
 df_long = df.melt(
     id_vars=id_vars, 
-    var_name="country", 
+    var_name="Country", 
     value_name="tariff_value"
 )
 
@@ -53,7 +53,7 @@ def get_tariff(row):
 df_long["Metal Tariff"] = df_long.apply(get_tariff, axis=1)
 
 # Final sub dataframe
-sub_df = df_long[["ROW ID #", "Material", "country", "tariff_value", "Metal Tariff"]]
+sub_df = df_long[["ROW ID #", "Material", "Country", "tariff_value", "Metal Tariff"]]
 sub_df["Material"] = sub_df["Material"].astype(str).str.strip()
 
 print(sub_df.head(20))
